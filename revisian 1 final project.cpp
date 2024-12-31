@@ -1,7 +1,5 @@
 #include <iostream>
 #include <string>
-#include <iomanip>
-#include <limits>
 
 using namespace std;
 
@@ -16,6 +14,7 @@ int recordCount = 0;
 
 int main() {
     int choice;
+    char temp[100];
 
     while (true) {
         cout << "\n=== Sistem Manajemen Cuaca dan Penjualan ===" << endl;
@@ -26,7 +25,7 @@ int main() {
         cout << "Pilih opsi (1-4): ";
         cin >> choice;
 
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        cin.ignore();
 
         if (choice == 1) {
             if (recordCount >= MAX_RECORDS) {
@@ -38,10 +37,11 @@ int main() {
             cout << "Masukkan tanggal (YYYY-MM-DD): ";
             cin >> dates[recordCount];
 
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.ignore();
 
             cout << "Masukkan kondisi cuaca (Cerah/Hujan/Berawan): ";
-            getline(cin, weatherConditions[recordCount]);
+            cin.getline(temp, 100);
+            weatherConditions[recordCount] = temp;
 
             cout << "Masukkan suhu (celcius): ";
             cin >> temperatures[recordCount];
@@ -49,10 +49,11 @@ int main() {
             cout << "Masukkan total penjualan harian: Rp ";
             cin >> totalSales[recordCount];
 
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cin.ignore();
 
             cout << "Masukkan menu spesial hari ini: ";
-            getline(cin, specialMenus[recordCount]);
+            cin.getline(temp, 100);
+            specialMenus[recordCount] = temp;
 
             recordCount++;
             cout << "Data cuaca berhasil ditambahkan!" << endl;
@@ -64,17 +65,14 @@ int main() {
             }
 
             cout << "\n--- Catatan Penjualan per Cuaca ---" << endl;
-            cout << left << setw(12) << "Tanggal"
-                << setw(15) << "Kondisi Cuaca"
-                << setw(12) << "Suhu"
-                << "Total Penjualan" << endl;
-            cout << string(50, '-') << endl;
+            cout << "Tanggal      Kondisi Cuaca    Suhu         Total Penjualan" << endl;
+            cout << "--------------------------------------------------" << endl;
 
             for (int i = 0; i < recordCount; i++) {
-                cout << left << setw(12) << dates[i]
-                    << setw(15) << weatherConditions[i]
-                    << setw(12) << temperatures[i]
-                    << "Rp " << fixed << setprecision(2) << totalSales[i] << endl;
+                cout << dates[i] << "    "
+                    << weatherConditions[i] << "         "
+                    << temperatures[i] << "         "
+                    << "Rp " << totalSales[i] << endl;
             }
         }
         else if (choice == 3) {
